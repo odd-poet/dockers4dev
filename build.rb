@@ -78,13 +78,12 @@ class DockerBuilder
 			build_image docker
 		end
 		puts 
-		puts " Results :"
+		puts "Build Results :"
+		puts "----------------------------------------"
 		@results.each do |result|
-			puts "----------------------------------------"
-			puts "> image : #{result.docker_image.image_name}"
-			puts "> elapsed time : #{result.elapsed_time}"
-			puts "> success : #{result.success}"
-			puts 
+			puts "* #{result.docker_image.image_name}"
+			puts "  - elapsed time : #{result.elapsed_time}"
+			puts "  - success : #{result.success}"
 		end
 	end
 
@@ -103,7 +102,6 @@ class DockerBuilder
 			system "docker tag #{docker_image.image_name} #{docker_image.image_name.name}:latest"
 		end
 		@results << result
-		puts "----------------------------------------"
 	end
 
 	def pull_base_images
