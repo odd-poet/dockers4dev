@@ -45,6 +45,7 @@ class DockerImage
 			image_name = matched[:image_name] if matched= line.match(IMAGE_NAME_PATTERN)
 			image_tag = matched[:image_tag] if matched= line.match(IMAGE_TAG_PATTERN)
 		end
+		image_name ||= File.basename(File.dirname dockerfile)
 		@dockerfile = File.absolute_path dockerfile
 		@image_name = ImageName.new(image_name, image_tag)
 		@base_image_name = ImageName.new(base_image)
@@ -123,15 +124,25 @@ class DockerBuilder
 	def make_build_order
 		@build_order = [] + no_deps_images
 		while @build_order.size != @docker_images.size
+			pre_size = @build_order.size
 			@build_order += (@docker_images - @build_order).select do |docker|
 				@build_order.find do |x|
 					x.image_name.replace_of? docker.base_image_name
 				end 
 			end
+			if pre_size == @build_order.size 
+				puts "Maybe there is dependency cycle!:"
+				(@docker_images - @build_order).each do |docker|
+					puts "> #{docker}"
+				end
+				exit 1
+			end
 		end
 	end
-
-
 end
 
-DockerBuilder.new(File.dirname(__FILE__)).build
+# entry point
+if __FILE__ == $0
+	DockerBuilder.new(File.dirname(__FILE__)).build
+end
+
