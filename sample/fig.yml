@@ -1,0 +1,87 @@
+zookeeper:
+  image: oddpoet/zookeeper
+  hostname: bifrost-infra.box
+  environment:
+    - PORT=2181
+  ports:
+    - "2181:2181"
+# mesos0:
+#   image: oddpoet/mesos-master
+#   hostname: bifrost-infra.box
+#   environment:
+#     - PORT=5050
+#     - ZK_URL=zk://zookeeper:2181/mesos
+#   ports:
+#     - "5050:5050"
+#   links:
+#     - zookeeper:zookeeper
+# mesos1:
+#   image: oddpoet/mesos-slave
+#   hostname: bifrost-infra.box
+#   environment:
+#     - PORT=5051
+#     - ZK_URL=zk://zookeeper:2181/mesos
+#   ports:
+#     - "5051:5051"
+#   links:
+#     - zookeeper:zookeeper
+# chronos:
+#   image: oddpoet/chronos
+#   hostname: bifrost-infra.box
+#   environment:
+#     - PORT=8080
+#     - MASTER=zk://zookeeper:2181/mesos
+#     - ZK_HOSTS=zookeeper:2181
+#   ports:
+#     - "8081:8081"
+#   links:
+#     - zookeeper:zookeeper
+# hbase:
+#   image: oddpoet/hbase-local
+#   hostname: bifrost-infra.box
+#   environment:
+#     - ZK_HOSTS=zookeeper:2181
+#     - MASTER_PORT=65000
+#     - MASTER_INFO_PORT=65010
+#     - REGIONSERVER_PORT=65020
+#     - REGIONSERVER_INFO_PORT=65030
+#   ports:
+#     - "65000:65000"
+#     - "65010:65010"
+#     - "65020:65020"
+#     - "65030:65030"
+#   links:
+#     - zookeeper:zookeeper
+
+stormnimbus:
+  image: oddpoet/storm-nimbus
+  hostname: bifrost-infra.box
+  expose:
+    - "6627:6627"
+    - "3372:3372"
+    - "3373:3373"
+  volumes:
+    - storm-conf:/storm/conf:ro
+  links:
+    - zookeeper:zookeeper
+stormsupervisor:
+  image: oddpoet/storm-supervisor
+  hostname: bifrost-infra.box
+  ports:
+    - "8000:8000"
+  volumes:
+    - storm-conf:/storm/conf:ro
+  links:
+    - stormnimbus:nimbus
+    - zookeeper:zookeeper
+stormui:
+  image: oddpoet/storm-ui
+  hostname: bifrost-infra.box
+  ports:
+    - "8080:8080"
+  volumes:
+    - storm-conf:/storm/conf:ro
+  links:
+    - stormnimbus:nimbus
+    - zookeeper:zookeeper
+

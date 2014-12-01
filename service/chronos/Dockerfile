@@ -1,18 +1,15 @@
-
-FROM oddpoet/mesos-base
+FROM oddpoet/chronos-base:2.1.0
 MAINTAINER yunsang.choi <oddpoet@gmail.com>
 
 #=======================
 # ENV
 #=======================
-ENV DOCKER_IMAGE_NAME oddpoet/chronos-base
+ENV DOCKER_IMAGE_NAME oddpoet/chronos
 ENV DOCKER_IMAGE_TAG 2.1.0
 ENV CHRONOS_VERSION 2.1.0
 
 #=======================
-# Install chronos
+# Start services.
 #=======================
-COPY install.sh install.sh 
-RUN /bin/bash install.sh 
-
-
+COPY start.sh start.sh
+ENTRYPOINT ["/bin/bash", "start.sh"]

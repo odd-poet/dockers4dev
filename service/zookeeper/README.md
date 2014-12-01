@@ -14,7 +14,7 @@ $ docker run oddpoet/zookeeper -h
          Zookeeper Server 3.4.5 (CDH-5.2.0)
 ###########################################################
 
-Usage: docker run DOCKER_OPTS oddpoet/zookeeper OPTIONS
+Usage: docker run DOCKER_OPTS oddpoet/zookeeper:cdh5.2 OPTIONS
 
 Environment vars:
   PORT=2181            zookeeper service port
@@ -27,7 +27,7 @@ Example:
     docker run -d \
          -p 2181:12181 \
          -e PORT=12181 \
-         oddpoet/zookeeper
+         oddpoet/zookeeper:cdh5.2
 ```
 
 fig.yml

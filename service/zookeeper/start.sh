@@ -5,7 +5,7 @@ echo "         Zookeeper Server $ZOOKEEPER_VERSION (CDH-$CDH_VER)"
 echo "###########################################################"
 echo 
 exit_with_usage() {
-	echo "Usage: docker run DOCKER_OPTS ${DOCKER_IMAGE_NAME} OPTIONS"
+	echo "Usage: docker run DOCKER_OPTS ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} OPTIONS"
 	echo 
 	echo "Environment vars: "
 	echo "  PORT=2181            zookeeper service port"
@@ -18,7 +18,7 @@ exit_with_usage() {
 	echo "    docker run -d \\"
 	echo "         -p 2181:12181 \\"
 	echo "         -e PORT=12181 \\"
-	echo "         ${DOCKER_IMAGE_NAME}"
+	echo "         ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
 	exit 1
 }
 

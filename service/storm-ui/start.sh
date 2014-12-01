@@ -1,23 +1,22 @@
 #!/bin/sh
 
 echo "###########################################################"
-echo "         Redis Server $REDIS_VERSION"
+echo "         Storm UI $STORM_VERSION"
 echo "###########################################################"
 echo 
 exit_with_usage() {
 	echo "Usage: docker run DOCKER_OPTS ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} OPTIONS"
 	echo 
-	echo "Environment: "
-	echo "  PORT=6379            redis service port"
-	echo 
 	echo "Options:"
 	echo "  -h,  --help          help message"
 	echo "  shell                execute shell. should run docker with '-i -t'. (service will not be started)"
 	echo 
+	echo "Notice: To configure storm, you can mount your storm config dir to '/storm/conf'."
+	echo 
 	echo "Example: "
 	echo "    docker run -d \\"
-	echo "         -p 6379:6379 \\"
-	echo "         -e PORT=6379 \\"
+	echo "         -p 8080:8080 \\"
+	echo "         -v \"/path/to/storm/conf:/storm/conf\""
 	echo "         ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
 	exit 1
 }
@@ -50,10 +49,8 @@ if [[ ! ("$PORT" =~ (^[0-9]+$)) ]];then
 fi
 
 
-echo "* starting redis "
-echo "* port : $PORT"
+echo "* starting storm-ui "
 echo 
 
 # start
-redis-server --port $PORT
-
+/storm/bin/storm ui

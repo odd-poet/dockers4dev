@@ -7,7 +7,7 @@ echo "###########################################################"
 echo 
 
 exit_with_usage() {
-	echo "Usage: docker run DOCKER_OPTS ${DOCKER_IMAGE_NAME} OPTIONS"
+	echo "Usage: docker run DOCKER_OPTS ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} OPTIONS"
 	echo 
 	echo "Environment vars:"
 	echo "  --ZK_HOSTS=localhost                   hbase.zookeeper.quorum." 
@@ -31,7 +31,7 @@ exit_with_usage() {
 	echo "         -e MASTER_INFO_PORT=65010 \\"
 	echo "         -e REGIONSERVER_PORT=65020 \\"
 	echo "         -e REGIONSERVER_INFO_PORT=65030 \\"
-	echo "         ${DOCKER_NAME}\\"
+	echo "         ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} "
 	exit 1
 }
 
