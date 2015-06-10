@@ -6,7 +6,7 @@ MAINTAINER yunsang.choi <oddpoet@gmail.com>
 # ENV
 #=======================
 ENV DOCKER_IMAGE_NAME oddpoet/centos6-jdk8
-ENV DOCKER_IMAGE_TAG 8u25
+ENV DOCKER_IMAGE_TAG 8u45
 
 #=======================
 # Install 

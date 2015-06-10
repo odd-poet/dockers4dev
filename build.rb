@@ -100,7 +100,7 @@ class DockerBuilder
 		system "docker build -t #{docker_image.image_name} ."
 		result.success = ($? == 0)
 		if @tag_latest
-			system "docker tag #{docker_image.image_name} #{docker_image.image_name.name}:latest"
+			system "docker tag -f #{docker_image.image_name} #{docker_image.image_name.name}:latest"
 		end
 		if @push_images
 			system "docker push #{docker_image.image_name}"

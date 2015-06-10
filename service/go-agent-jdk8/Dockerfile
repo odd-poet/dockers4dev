@@ -5,7 +5,8 @@ MAINTAINER yunsang.choi <oddpoet@gmail.com>
 # ENV
 #=======================
 ENV DOCKER_IMAGE_NAME oddpoet/go-agent-jdk8
-ENV DOCKER_IMAGE_TAG 14.3.0-1186
+ENV DOCKER_IMAGE_TAG 15.1.0-1863
+ENV SCALA_VERSION 2.11.6
 
 
 #=======================
