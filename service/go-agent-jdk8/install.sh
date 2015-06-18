@@ -11,7 +11,7 @@ ln -s /apache-maven-3.3.3/bin/mvn /usr/bin/mvn
 rm apache-maven-3.3.3-bin.tar.gz
 
 # install git + ssh 
-yum install -y git openssh-clients expect zip
+yum install -y git openssh-clients expect zip unzip
 mkdir /var/go/.ssh 
 mv id_rsa /var/go/.ssh/
 mv id_rsa.pub /var/go/.ssh/
@@ -25,16 +25,24 @@ curl -L http://downloads.typesafe.com/scala/2.11.6/scala-2.11.6.tgz?_ga=1.239306
 tar xvzf scala-2.11.6.tgz
 curl -L http://downloads.typesafe.com/typesafe-activator/1.3.4/typesafe-activator-1.3.4.zip?_ga=1.162179068.1521285708.1433902192 -o typesafe-activator-1.3.4.zip
 unzip typesafe-activator-1.3.4.zip
+curl -L https://dl.bintray.com/sbt/native-packages/sbt/0.13.8/sbt-0.13.8.tgz -o sbt-0.13.8.tgz
+tar xvzf sbt-0.13.8.tgz
+
+# file permission 문제 fix 
+# 기존 이미지에서는 아래와 같이 직접 수정함. 
+# for d in $(docker ps | grep "Builder" | awk '{print $1}');do docker exec $d chmod +x activator-1.3.4/activator; echo $d; done;
+chmod +x activator-1.3.4/activator
+
 
 echo "# set SCALA"  >> ~/.bashrc 
 echo "export SCALA_HOME=/scala-2.11.6" >> ~/.bashrc 
-echo "export PATH=\$PATH:\$SCALA_HOME/bin:/activator-1.3.4" >> ~/.bashrc
+echo "export PATH=\$PATH:\$SCALA_HOME/bin:/activator-1.3.4:/sbt/bin" >> ~/.bashrc
 
 # set javahome
 echo "JAVA_HOME=/usr/java/default" >> /etc/default/go-agent
 echo "export JAVA_HOME" >> /etc/default/go-agent
 echo "export SCALA_HOME=/scala-2.11.6" >> /etc/default/go-agent
-echo "export PATH=\$PATH:\$SCALA_HOME/bin:/activator-1.3.4" >> /etc/default/go-agent
+echo "export PATH=\$PATH:\$SCALA_HOME/bin:/activator-1.3.4:/sbt/bin" >> /etc/default/go-agent
 
 # ignore host key checking
 echo "Host *" >> /var/go/.ssh/config
